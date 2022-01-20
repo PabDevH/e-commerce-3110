@@ -1,0 +1,5 @@
+[
+    { "id": "1", "name": "Common NFT", "price": "3.00"},
+    { "id": "2", "name": "Rare NFT", "price": "5.00"},
+    { "id": "3", "name": "Epic NFT", "price": "10.00"}
+]
