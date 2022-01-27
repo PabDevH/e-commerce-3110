@@ -1,9 +1,14 @@
 import {Button} from 'react-bootstrap'
-import { React, useState } from 'react'
+import { React, useState, useEffect} from 'react'
 
-const Qty = ({stock,price}) => {
+const Qty = ({stock, price, setQtySelected }) => {
     const [QtyState, SetQtyState] = useState(1);
     const [ShowTotal, SetShowTotal] = useState(price);
+    
+    useEffect(() => {
+        setQtySelected(QtyState);
+      }, [QtyState]);
+
     const UpdateQtyPlus = () => {
         if (QtyState+1<=stock) {
             SetQtyState(QtyState+1);
