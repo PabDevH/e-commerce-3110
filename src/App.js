@@ -3,7 +3,7 @@ import './App.css';
 
 import NavBar from "./components/NavBar";
 import ItemListContainer from './components/item-list-container/ItemListContainer'
-import {products} from './helpers/promises'
+
 
 
 function App() {

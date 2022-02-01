@@ -12,7 +12,7 @@ const Qty = ({stock, price, setQtySelected }) => {
     const UpdateQtyPlus = () => {
         if (QtyState+1<=stock) {
             SetQtyState(QtyState+1);
-            SetShowTotal(price*(QtyState+1));
+            SetShowTotal((price*(QtyState+1)).toFixed(2));
         }
     }
     const UpdateQtyMinus = () => {
@@ -21,7 +21,7 @@ const Qty = ({stock, price, setQtySelected }) => {
             SetShowTotal(price);
         }else{
             SetQtyState(QtyState-1);
-            SetShowTotal(price*(QtyState-1));
+            SetShowTotal((price*(QtyState-1)).toFixed(2));
         }
     }
 
