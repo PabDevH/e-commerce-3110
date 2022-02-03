@@ -1,5 +1,9 @@
 [
-    { "id": "1", "name": "Common NFT", "price": "3.00", "stock": 5, "description": "Traits: Ears Common, Head Common, Noise Common"},
-    { "id": "2", "name": "Rare NFT", "price": "5.00", "stock": 3, "description": "Traits: Ears (Common or Gold), Head Common, Noise (Common or Silver)"},
-    { "id": "3", "name": "Epic NFT", "price": "10.00", "stock": 2, "description": "Traits: Ears (Gold or Silver) , Head (Gold or Silver), Noise (Gold or Platinum (0.01%) )"}
+    { "id": "1", "name": "Sport: Common NFT", "price": "3.00", "stock": 400, "description": "A common Sport NFT","category": "Sport" , "image": "https://lh3.googleusercontent.com/tztvV6VVjcsnMvLfnCC0UeNVpErBx98vy1J-GwMR3miYBEDkEE3OCPE5394VCjZY__TiKhyrtV1oXF1GikhyORcvN5gAtG5TdBmXJw=w304"},
+    { "id": "2", "name": "Sport: Rare NFT", "price": "3.90", "stock": 200, "description": "A rare Sport NFT","category": "Sport", "image": "https://lh3.googleusercontent.com/_e0fzOLZyFpEwh-Rryq0YCMDn9p6jpAknjjrJOYg_eEefBnHtCCH_5RyeGwLd7-XGBpUp_73JweySwZQysoqJ-yjgg=w600"},
+    { "id": "3", "name": "Trading Cards: Rare NFT", "price": "5.00", "stock": 150, "description": "A rare Trading Card NFT", "category": "Trading Cards", "image": "https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2021/03/931/523/Edelman-NFT1.jpg?ve=1&tl=1"},
+    { "id": "4", "name": "Trading Cards: Epic NFT", "price": "50.00", "stock": 2, "description": "Only 2! An Epic Trading Card NFT", "category": "Trading Cards", "image": "https://lh3.googleusercontent.com/I9gP_0_B2aP-UtgPo7uXv-n8ySjfWxCQeD66C8bf-AtfmqAkp6lqwdk9MaOkx7OaOTY7Iob6brVg2xWdWqpN1r2Io_q5PdF26xOleDg=w600"},
+    { "id": "5", "name": "Music: Common NFT", "price": "3.25", "stock": 2000, "description": "A common Music NFT", "category": "Music", "image": "https://lh3.googleusercontent.com/-LC557W3yiKV0lxG_BCY4iHiX-OInyGeddDn8afpbXTlDmdSnQGIp59813vyOmJp2jeWmVW0nCdeSUBRy0y5QSv7uFyXOAMTs3QFb7s=w304"},
+    { "id": "6", "name": "Music: Rare NFT", "price": "8.50", "stock": 130, "description": "A rare Music NFT", "category": "Music","image": "https://ipfs.io/ipfs/QmcqtW9JqLEXNvZxoXoBFUerTRj8pszm8aRNuZ2NpGCCz5"}  ,
+    { "id": "7", "name": "Music: Epic NFT", "price": "25.00", "stock": 5, "description": "From our best musician. Only 5 NFT!", "category": "Music", "image": "https://ipfs.io/ipfs/QmbMaGdqRtfbWzTEYmWEihJpnAU6CmjDdAg1D7n1ud8qkh"}
 ]

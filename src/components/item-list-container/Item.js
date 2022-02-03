@@ -1,6 +1,7 @@
 import {Button} from 'react-bootstrap'
 import Qty from '../item-count/ItemCount'
 import {useState} from 'react';
+import { Link, NavLink } from "react-router-dom";
 
 const Item = ({id, name, price, stock , description, setSelectedItem}) => {
     const [QtySelected, setQtySelected] = useState(0);
@@ -15,7 +16,8 @@ const Item = ({id, name, price, stock , description, setSelectedItem}) => {
                 <h4>Price: $ {price}</h4>
                 <Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} />
                 <h4>Available {stock} NFT</h4>
-                <Button variant='primary' onClick={selectItem}>Show More Info</Button>
+                
+                <Link to={"/item/"+id}><Button variant='primary'>Show More Info</Button></Link>
                 <hr />
         </div>
     );

@@ -1,20 +1,22 @@
 import { React, useEffect, useState } from 'react'
 import { Alert, Table } from 'react-bootstrap'
 import Item from "../item-list-container/Item"
-import Description from "./ItemListDescription"
+//import Description from "./ItemListDescription"
+import { useParams } from 'react-router-dom'
 
 export const ItemListContainer = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { categoryID } = useParams();
+
     useEffect(() => {
         APIProductsList();
     },[]);
 
-
-    const APIProductsList = async () => {
+   const APIProductsList = async () => {
         try {
-            const response = await fetch("./Item.json");
+            const response = await fetch("http://localhost:3000/item.json");
             console.log(response);
             const data = await response.json();
             setProducts(data);
@@ -27,29 +29,36 @@ export const ItemListContainer = () => {
         }
     };
 
-    
 
-    if (loading) {
-        return <div><img src='loading.gif' title='Loading....' /></div>
-    }
+
+    const filterProducts = products.filter(({ category }) => category === categoryID);
     
+    if (loading) {
+        return <div><img src='/loading.gif' title='Loading....' /></div>
+    }
+  
     return (
         <div>
-            {
-                selectedItem ? <Description searchID={selectedItem.id}/> : ""
-            }
+           
             
             <Table responsive>
                 <thead>
                     <tr>
-                        <td><h1>Products List</h1></td>
+                        <td><h1>Products List {categoryID}</h1></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>
                         {
+                            !categoryID &&
                             products.map(({id,name,price,stock,description}) => (
+                                <Item key={id} id={id} name={name} price={price} stock={stock} description={description} setSelectedItem={setSelectedItem} ></Item>
+                            ))
+                        }
+                        {
+                            categoryID &&
+                            filterProducts.map(({id,name,price,stock,description}) => (
                                 <Item key={id} id={id} name={name} price={price} stock={stock} description={description} setSelectedItem={setSelectedItem} ></Item>
                             ))
                         }
