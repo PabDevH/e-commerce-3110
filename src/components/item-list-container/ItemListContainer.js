@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react'
-import { Alert, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
 import Item from "../item-list-container/Item"
 //import Description from "./ItemListDescription"
 import { useParams } from 'react-router-dom'
