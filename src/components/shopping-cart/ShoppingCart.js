@@ -1,9 +1,70 @@
-import React from "react";
-import {Tables} from 'react-bootstrap';
+import {React, useContext, useState} from "react";
+import {Table, Alert, Button} from 'react-bootstrap';
+import { CartContext } from '../../context/cartContext';
+import { Link, NavLink } from "react-router-dom";
 
 const ShoppingCart = () => {
+    const { productsInCart } = useContext(CartContext);
+    const { RemoveProductFromCart } = useContext(CartContext);
+    const { EmptyCart } = useContext(CartContext);
+    let subtotal = 0;
+    const CalculateSubtotal = () => {
+        productsInCart.map(({productID,qty,description,price}) => (
+            subtotal = subtotal + (qty*price)
+        ))
+        return subtotal;
+    }
+    const RemoveProduct = (e) => {
+        const selProductID = e.currentTarget.getAttribute("productID");
+        RemoveProductFromCart(selProductID);
+    }
+    const RemoveAllProducts = () => {
+        EmptyCart();
+    }
     return (
-        <h4>Shopping Cart</h4>
+        <div>
+            <Alert variant="success"><h4>Shopping Cart</h4></Alert>
+            
+            <Table striped bordered hover >
+                <thead>
+                    <tr>
+                        <th>Qty</th><th>Item Description</th><th>Unit Price</th><th>Total</th><th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        productsInCart.length > 0 ?
+                        productsInCart.map(({productID,qty,description,price}) => (
+                            
+                            <tr key={productID}>
+                                <td>{qty}</td><td>{description}</td><td>${price}</td><td>${price*qty}</td><td><Button onClick={RemoveProduct} productID={productID}>Remove</Button></td>
+                            </tr>
+                            
+                        ))
+                        :
+                            <tr><td colSpan={5}>Yor Shopping Cart is Empty</td></tr>
+                    }
+                    {
+                        productsInCart.length > 0 ?
+                            <tr >
+                                <td colSpan={2}></td><td colSpan={1}><b>Total:</b></td><td colSpan={1}><b>${CalculateSubtotal()}</b></td><td colSpan={1}></td>
+                            </tr>
+                            
+                        
+                        :
+                            ""
+                    }
+                    {
+                        productsInCart.length > 0 ?
+                            <tr><td colSpan={5}><Button>Procced to Checkout</Button>&nbsp;<Button onClick={RemoveAllProducts}>Remove All Products</Button></td></tr>
+                        :
+                            <tr><td colSpan={5}><NavLink to="/"><Button>Continue Shopping</Button></NavLink></td></tr>
+                    }
+
+                    
+                </tbody>
+            </Table>
+        </div>
     )
 }
 export default ShoppingCart;

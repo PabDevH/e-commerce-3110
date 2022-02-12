@@ -10,8 +10,8 @@
   
   .Nav_link:link {
     color: #fff;
-    font-size: 1.3rem;
-    line-height: 1.3rem;
+    font-size: 1.0rem;
+    line-height: 1.0rem;
     text-decoration: none;
   }
   .Nav_link:visited {

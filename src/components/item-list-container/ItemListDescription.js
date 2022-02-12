@@ -1,7 +1,8 @@
-import { React, useEffect, useState } from 'react'
+import { React, useContext, useEffect, useState } from 'react'
 import { Alert, Table, Button } from 'react-bootstrap'
-import { useParams } from 'react-router-dom';
+import { useParams,NavLink } from 'react-router-dom';
 import Qty from '../item-count/ItemCount';
+import { CartContext } from '../../context/cartContext';
 
 const Description = () => {
     const [products, setProducts] = useState([]);
@@ -9,23 +10,28 @@ const Description = () => {
     const { productID } = useParams();
     const [QtySelected, setQtySelected] = useState(0);
     const [addResult, setAddResult]=useState();
-    const [itemsInCart, setItemsInCart]=useState([]);
     const [showAdd, setShowAdd]=useState(true);
-    
-    const addToCart = () => {
-        if (itemsInCart.length==0) {
+    const { AddProductsToCart } = useContext(CartContext);
+    const { productsInCart } = useContext(CartContext);
+
+    const addToCart = (e) => {
+        const selDescription = e.currentTarget.getAttribute("description");
+        const selPrice = e.currentTarget.getAttribute("price");
+        if (productsInCart.some(item => item.productID === productID)) {
+            setAddResult('Already in your shopping cart');
             setShowAdd(false);
-            setItemsInCart([...itemsInCart,{"productID":productID,"qty":QtySelected}])
+        }else{
+            setShowAdd(false);
+            AddProductsToCart( {"productID": productID, "qty": QtySelected,"description":selDescription, "price": selPrice })
             setLoading(true);
             setTimeout(() => {
                 setLoading(false);
             },1)
             setAddResult('You added '+QtySelected+' items from this NFT to your Shopping Cart');
-        }else{
-            setAddResult('Already in your shopping cart');
         }
     }
-    console.log(itemsInCart);
+    console.log(productsInCart);
+    
 
     useEffect(() => {
         APIProductsList();
@@ -57,57 +63,53 @@ const Description = () => {
     return (
         <div>
             <Alert variant={productID ? "success" : "danger"}>
-                
-                        
-                            {
-                                filterProducts.map(({id,name,price,stock,description, image, category}) => (
-                                    <Table key={id} striped bordered hover >
-                                        <tbody>
-                                            <tr>
-                                                <td colSpan={3}>
-                                                    <h4>{name}</h4>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowSpan={6}>
-                                                    <img src={image} alt="NFT" width={350} height={500} />
-                                                </td>
-                                                <td>Category: </td><td>{category}</td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td>Descripcion: </td><td>{description}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Price: </td><td>${price}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Available Stock: </td><td>{stock}</td>
-                                            </tr>
-                                            {showAdd ? 
-                                            <tr>
-                                                <td>Quantity</td><td><Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} /></td>
-                                            </tr>
-                                            : <tr>
-                                                <td colSpan={2} ><b>{addResult}</b><br /></td>
-                                            </tr> }
-                                            {showAdd ? 
-                                            <tr>
-                                                <td colSpan={2}><Button variant="warning" onClick={addToCart} >Add to Cart</Button></td>
-                                            </tr>
-                                            : 
-                                            <tr>
-                                                <td colSpan={2}><Button variant="warning" href="/cart">Go to Cart</Button>&nbsp;<Button variant="warning" href="/">Continue Shopping</Button></td>
-                                            </tr>
-                                            }
-                                        </tbody>
-                                    </Table>
-                                    
-                                    
-                                    
-                                ))
+                {
+                filterProducts.map(({id,name,price,stock,description, image, category}) => (
+                    <Table key={id} striped bordered hover >
+                        <tbody>
+                            <tr>
+                                <td colSpan={3}>
+                                    <h4>{name}</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowSpan={6}>
+                                    <img src={image} alt="NFT" width={450} height={500} />
+                                </td>
+                                <td>Category: </td><td>{category}</td>
+                            </tr>
+                            <tr>
+                                <td>Descripcion: </td><td>{description}</td>
+                            </tr>
+                            <tr>
+                                <td>Price: </td><td>${price}</td>
+                            </tr>
+                            <tr>
+                                <td>Available Stock: </td><td>{stock}</td>
+                            </tr>
+                            {showAdd ? 
+                            <tr>
+                                <td>Quantity</td><td><Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} /></td>
+                            </tr>
+                            : <tr>
+                                <td colSpan={2} ><b>{addResult}</b><br /></td>
+                            </tr> }
+                            {showAdd ? 
+                            <tr>
+                                <td colSpan={2}><Button variant="warning" onClick={addToCart} description={description} price={price}>Add to Cart</Button></td>
+                            </tr>
+                            : 
+                            <tr>
+                                <td colSpan={2}><NavLink to="/cart"><Button variant="warning">Go to Cart</Button></NavLink>&nbsp;<NavLink to="/"><Button variant="warning">Continue Shopping</Button></NavLink></td>
+                            </tr>
                             }
+                        </tbody>
+                    </Table>
+                    
+                    
+                    
+                ))
+            }
                         
                        
                 

@@ -1,14 +1,12 @@
 import { FormControl, Button, Container, Form, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
 import CartIcon from "../icon/CartIcon";
 import { Link, NavLink } from "react-router-dom";
-import '../NavLink.css';
+import './NavLink.css';
 
 const NavBar = () => {
-  const ActiveLink = {
+  const activeStyle = {
     color: "red",
-    style: "text-decoration: none"
-  }
-
+  };
   return (
   <div>
     <Navbar bg="dark" variant="dark" >
@@ -17,8 +15,8 @@ const NavBar = () => {
           <NavLink 
             to="/"
             className="Nav_link"
-            activeClassName="activeRoute"
-            activeStyle={{ color: 'teal' }}
+            activeclassname="activeRoute"
+            activestyle={{ color: 'teal' }}
           >
           Outloander NFT
           </NavLink>
@@ -33,36 +31,36 @@ const NavBar = () => {
             <Nav.Link >
               <NavLink 
               to="/" 
-              
+              style={{ textDecoration: 'none' }}
               >
                 Home
               </NavLink>
             </Nav.Link>
-            <Nav.Link >
-              <NavLink 
-              to="/" 
-            
-              >
-                Stats
-              </NavLink>
-            </Nav.Link>
-            <Nav.Link >
-              <NavLink 
-              to="/" 
-             
-              >
-                Create
-              </NavLink>
-            </Nav.Link>
+           
             <NavDropdown title="Explore" id="navbarScrollingDropdown" >
             <NavDropdown.Item>
-              <NavLink to="/categories/Music">Music</NavLink>
+              <NavLink 
+              to="/categories/Music" 
+              style={{ textDecoration: 'none' }}
+              >
+                Music
+              </NavLink>
             </NavDropdown.Item>
             <NavDropdown.Item>
-            <NavLink to="/categories/Sport">Sport</NavLink>
+            <NavLink 
+            to="/categories/Sport" 
+            style={{ textDecoration: 'none' }}
+            >
+              Sport
+            </NavLink>
             </NavDropdown.Item>
             <NavDropdown.Item>
-            <NavLink to="/categories/Trading%20Cards">Trading Cards</NavLink>
+            <NavLink 
+            to="/categories/Trading%20Cards" 
+            style={{ textDecoration: 'none' }}
+            >
+              Trading Cards
+            </NavLink>
             </NavDropdown.Item>
             </NavDropdown>
             
@@ -88,7 +86,6 @@ const NavBar = () => {
         </Navbar.Collapse>
       </Container>
   </Navbar>
-  <h3>Outlander NFT</h3>
 </div>
   );
 };
