@@ -2,11 +2,15 @@ import { FormControl, Button, Container, Form, Nav, Navbar, NavDropdown, NavItem
 import CartIcon from "../icon/CartIcon";
 import { Link, NavLink } from "react-router-dom";
 import './NavLink.css';
-
+import { useState } from "react";
 const NavBar = () => {
   const activeStyle = {
     color: "red",
   };
+  const [formValue, saveFormValue] = useState("");
+  const sendForm = () => {
+    console.log('Form: '+formValue);
+  }
   return (
   <div>
     <Navbar bg="dark" variant="dark" >
@@ -80,8 +84,10 @@ const NavBar = () => {
               placeholder="Search Items, Collections..."
               className="me-2"
               aria-label="Search"
+              name="searchForm"
+              onInput={e => saveFormValue(e.target.value)}
             />
-            <Button variant="outline-success" >Search</Button>
+            <Button variant="outline-success" onClick={sendForm}>Search</Button>
           </Form>
         </Navbar.Collapse>
       </Container>

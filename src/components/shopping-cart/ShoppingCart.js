@@ -2,7 +2,7 @@ import {React, useContext, useState} from "react";
 import {Table, Alert, Button} from 'react-bootstrap';
 import { CartContext } from '../../context/cartContext';
 import { Link, NavLink } from "react-router-dom";
-
+ 
 const ShoppingCart = () => {
     const { productsInCart } = useContext(CartContext);
     const { RemoveProductFromCart } = useContext(CartContext);
@@ -15,6 +15,7 @@ const ShoppingCart = () => {
         return subtotal;
     }
     const RemoveProduct = (e) => {
+        if (!window.confirm('Are you really sure?')) return;
         const selProductID = e.currentTarget.getAttribute("productID");
         RemoveProductFromCart(selProductID);
     }
@@ -36,7 +37,7 @@ const ShoppingCart = () => {
                         productsInCart.length > 0 ?
                         productsInCart.map(({productID,qty,description,price}) => (
                             
-                            <tr key={productID}>
+                            <tr key={(price*qty)+'-'+price+'-'+qty}>
                                 <td>{qty}</td><td>{description}</td><td>${price}</td><td>${price*qty}</td><td><Button onClick={RemoveProduct} productID={productID}>Remove</Button></td>
                             </tr>
                             
