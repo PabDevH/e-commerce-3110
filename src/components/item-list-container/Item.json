@@ -1,5 +1,0 @@
-[
-    { "id": "1", "name": "Common NFT", "price": "3.00", "stock": 5, "description": "Traits: Ears Common, Head Common, Noise Common"},
-    { "id": "2", "name": "Rare NFT", "price": "5.00", "stock": 3, "description": "Traits: Ears (Common or Gold), Head Common, Noise (Common or Silver)"},
-    { "id": "3", "name": "Epic NFT", "price": "10.00", "stock": 2, "description": "Traits: Ears (Gold or Silver) , Head (Gold or Silver), Noise (Gold or Platinum (0.01%) )"}
-]
