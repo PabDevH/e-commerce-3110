@@ -22,7 +22,7 @@ const NavBar = () => {
             activeclassname="activeRoute"
             activestyle={{ color: 'teal' }}
           >
-          Outloander NFT
+          Outlander NFT
           </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

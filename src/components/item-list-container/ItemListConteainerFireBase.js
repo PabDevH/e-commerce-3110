@@ -1,54 +1,37 @@
 import { React, useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap'
 import Item from "../item-list-container/Item"
+//import Description from "./ItemListDescription"
 import { useParams } from 'react-router-dom'
-import { collection, getDocs, getFirestore } from 'firebase/firestore'
+import { doc, getDoc, getDocs, collection, getFirestore } from 'firebase/firestore'
 
-export const ItemListContainer = () => {
+export const ItemListContainerFireBase = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { categoryID } = useParams();
-    const db = getFirestore();
 
     useEffect(() => {
-        APIProductsList();
+        //APIProductsList();
+        const db = getFirestore();
+        const itemCollections = collection(db, "items");
+        console.log(itemCollections)
+        getDocs(itemCollections).then((snapshot) => {
+            snapshot.docs.map(({doc}) => (
+                setProducts(...doc.data())
+            ))
+        })
     },[]);
 
-   const APIProductsList = async () => {
-        /*try {
-            const response = await fetch("http://localhost:3000/item.json");
-            console.log(response);
-            const data = await response.json();
-            setProducts(data);
-        } catch(error) {
-            console.log('No se pudieron traer los productos');
-        } finally {
-            setTimeout(() => {
-                setLoading(false);
-            },2000)
-        }*/
-        
-        try {
-            const itemsCollection = collection(db, "items");
-            const response = await getDocs(itemsCollection)
-            console.log(response)
-            setProducts(response.docs.map((doc) => ({id: doc.id,...doc.data()})))
-        } catch(error) {
-            console.log(error)
-        } finally {
-            setLoading(false);
-        }
-        
-    };
+   
 
-    if (loading) {
-        return <div><img src='/loading.gif' title='Loading....' /></div>
-    }
+
 
     const filterProducts = products.filter(({ category }) => category === categoryID);
     
-    
+    if (loading) {
+        return <div><img src='/loading.gif' title='Loading....' /></div>
+    }
   
     return (
         <div>
@@ -85,4 +68,4 @@ export const ItemListContainer = () => {
     )
 }
 
-export default ItemListContainer;
+export default ItemListContainerFireBase;

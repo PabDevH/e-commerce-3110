@@ -3,6 +3,7 @@ import { Alert, Table, Button } from 'react-bootstrap'
 import { useParams,NavLink } from 'react-router-dom';
 import Qty from '../item-count/ItemCount';
 import { CartContext } from '../../context/cartContext';
+import { collection, getDocs, getFirestore } from 'firebase/firestore'
 
 const Description = () => {
     const [products, setProducts] = useState([]);
@@ -13,7 +14,8 @@ const Description = () => {
     const [showAdd, setShowAdd]=useState(true);
     const { AddProductsToCart } = useContext(CartContext);
     const { productsInCart } = useContext(CartContext);
-
+    const db = getFirestore();
+    
     const addToCart = (e) => {
         const selDescription = e.currentTarget.getAttribute("description");
         const selPrice = e.currentTarget.getAttribute("price");
@@ -40,7 +42,7 @@ const Description = () => {
     
 
     const APIProductsList = async () => {
-        try {
+        /*try {
             const response = await fetch("http://localhost:3000/item.json");
             console.log(response);
             const data = await response.json();
@@ -51,6 +53,16 @@ const Description = () => {
             setTimeout(() => {
                 setLoading(false);
             },2000)
+        }*/
+        try {
+            const itemsCollection = collection(db, "items");
+            const response = await getDocs(itemsCollection)
+            console.log(response)
+            setProducts(response.docs.map((doc) => ({id: doc.id,...doc.data()})))
+        } catch(error) {
+            console.log(error)
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -76,20 +88,20 @@ const Description = () => {
                                 <td rowSpan={6}>
                                     <img src={image} alt="NFT" width={450} height={500} />
                                 </td>
-                                <td>Category: </td><td>{category}</td>
+                                <td><b>Category:</b> </td><td>{category}</td>
                             </tr>
                             <tr>
-                                <td>Descripcion: </td><td>{description}</td>
+                                <td><b>Descripcion:</b> </td><td>{description}</td>
                             </tr>
                             <tr>
-                                <td>Price: </td><td>${price}</td>
+                                <td><b>Price:</b> </td><td>${price}</td>
                             </tr>
                             <tr>
-                                <td>Available Stock: </td><td>{stock}</td>
+                                <td><b>Available Stock:</b> </td><td>{stock-QtySelected}</td>
                             </tr>
                             {showAdd ? 
                             <tr>
-                                <td>Quantity</td><td><Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} /></td>
+                                <td><b>Quantity</b></td><td><Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} /></td>
                             </tr>
                             : <tr>
                                 <td colSpan={2} ><b>{addResult}</b><br /></td>
