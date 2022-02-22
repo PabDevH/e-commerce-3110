@@ -20,7 +20,7 @@ const ShoppingCart = () => {
     useEffect(() => {
         setSubtotal(CalculateSubtotal());
     },[])
-
+ 
     const RemoveProduct = (e) => {
         if (!window.confirm('Are you really sure?')) return;
         const selProductID = e.currentTarget.getAttribute("productID");

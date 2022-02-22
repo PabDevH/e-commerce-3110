@@ -2,7 +2,7 @@ import {React, useContext, useEffect, useState} from "react";
 import {Table, Alert, Button} from 'react-bootstrap';
 import { CartContext } from '../../context/cartContext';
 import { collection, addDoc, getFirestore, doc, updateDoc, getDoc} from 'firebase/firestore'
-
+ 
 
 const CheckOut = () => {
     const { productsInCart } = useContext(CartContext);
