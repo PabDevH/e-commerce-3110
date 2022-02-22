@@ -1,4 +1,4 @@
-import {Button} from 'react-bootstrap'
+import {Button, Table} from 'react-bootstrap'
 
 import {useState} from 'react';
 import { Link, NavLink } from "react-router-dom";
@@ -9,14 +9,22 @@ const Item = ({id, name, price, stock , description, setSelectedItem}) => {
         setSelectedItem({ name, price, id, stock, description, qty: QtySelected });
     }
     return (
-        <div>
+        <div >
                 <h3>{name}</h3>
-                
-                <img width='150' height='150' src='/images/pack.png' />
-                <h4>Price: $ {price}</h4>
-                <h4>Available {stock} NFT</h4>
+                <h6>Price: ${price}</h6>
+                <h6>Stock: {stock}</h6>
+                <img width='150' height='150' src='/images/pack.png' /><br /><br />
                 <Link to={"/item/"+id}><Button variant='primary'>Show More Info</Button></Link>
-                <hr />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                
+                
+                
+                
         </div>
     );
 }

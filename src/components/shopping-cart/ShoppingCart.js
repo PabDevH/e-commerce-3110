@@ -1,4 +1,4 @@
-import {React, useContext, useState} from "react";
+import {React, useContext, useState, useEffect} from "react";
 import {Table, Alert, Button} from 'react-bootstrap';
 import { CartContext } from '../../context/cartContext';
 import { Link, NavLink } from "react-router-dom";
@@ -7,13 +7,20 @@ const ShoppingCart = () => {
     const { productsInCart } = useContext(CartContext);
     const { RemoveProductFromCart } = useContext(CartContext);
     const { EmptyCart } = useContext(CartContext);
-    let subtotal = 0;
+    const [subtotal, setSubtotal]=useState(0);
+
+    
     const CalculateSubtotal = () => {
+        let subtotal = 0;
         productsInCart.map(({productID,qty,description,price}) => (
             subtotal = subtotal + (qty*price)
         ))
         return subtotal;
     }
+    useEffect(() => {
+        setSubtotal(CalculateSubtotal());
+    },[])
+
     const RemoveProduct = (e) => {
         if (!window.confirm('Are you really sure?')) return;
         const selProductID = e.currentTarget.getAttribute("productID");
@@ -48,7 +55,7 @@ const ShoppingCart = () => {
                     {
                         productsInCart.length > 0 ?
                             <tr >
-                                <td colSpan={2}></td><td colSpan={1}><b>Total:</b></td><td colSpan={1}><b>${CalculateSubtotal()}</b></td><td colSpan={1}></td>
+                                <td colSpan={2}></td><td colSpan={1}><b>Total:</b></td><td colSpan={1}><b>${subtotal}</b></td><td colSpan={1}></td>
                             </tr>
                             
                         
@@ -57,7 +64,7 @@ const ShoppingCart = () => {
                     }
                     {
                         productsInCart.length > 0 ?
-                            <tr><td colSpan={5}><Button>Procced to Checkout</Button>&nbsp;<Button onClick={RemoveAllProducts}>Remove All Products</Button></td></tr>
+                            <tr><td colSpan={5}><NavLink to="/checkout"><Button>Procced to Checkout</Button></NavLink>&nbsp;<Button onClick={RemoveAllProducts}>Remove All Products</Button></td></tr>
                         :
                             <tr><td colSpan={5}><NavLink to="/"><Button>Continue Shopping</Button></NavLink></td></tr>
                     }

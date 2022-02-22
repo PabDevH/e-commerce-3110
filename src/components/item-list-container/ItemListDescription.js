@@ -19,6 +19,7 @@ const Description = () => {
     const addToCart = (e) => {
         const selDescription = e.currentTarget.getAttribute("description");
         const selPrice = e.currentTarget.getAttribute("price");
+        
         if (productsInCart.some(item => item.productID === productID)) {
             setAddResult('Already in your shopping cart');
             setShowAdd(false);
@@ -42,18 +43,6 @@ const Description = () => {
     
 
     const APIProductsList = async () => {
-        /*try {
-            const response = await fetch("http://localhost:3000/item.json");
-            console.log(response);
-            const data = await response.json();
-            setProducts(data);
-        } catch(error) {
-            console.log('No se pudieron traer los productos');
-        } finally {
-            setTimeout(() => {
-                setLoading(false);
-            },2000)
-        }*/
         try {
             const itemsCollection = collection(db, "items");
             const response = await getDocs(itemsCollection)
@@ -77,9 +66,9 @@ const Description = () => {
             <Alert variant={productID ? "success" : "danger"}>
                 {
                 filterProducts.map(({id,name,price,stock,description, image, category}) => (
-                    <Table key={id} striped bordered hover >
+                    <Table key={id} striped bordered responsive='md' variant='light' size="sm" > 
                         <tbody>
-                            <tr>
+                            <tr >
                                 <td colSpan={3}>
                                     <h4>{name}</h4>
                                 </td>
@@ -88,31 +77,31 @@ const Description = () => {
                                 <td rowSpan={6}>
                                     <img src={image} alt="NFT" width={450} height={500} />
                                 </td>
-                                <td><b>Category:</b> </td><td>{category}</td>
+                                <td class="align-middle"><b>Category:</b> </td><td class="align-middle" >{category}</td>
                             </tr>
                             <tr>
-                                <td><b>Descripcion:</b> </td><td>{description}</td>
+                                <td class="align-middle"><b>Descripcion:</b> </td><td class="align-middle">{description}</td>
                             </tr>
                             <tr>
-                                <td><b>Price:</b> </td><td>${price}</td>
+                                <td class="align-middle"><b>Price:</b> </td><td class="align-middle">${price}</td>
                             </tr>
                             <tr>
-                                <td><b>Available Stock:</b> </td><td>{stock-QtySelected}</td>
+                                <td class="align-middle"><b>Available Stock:</b> </td><td class="align-middle">{stock-QtySelected}</td>
                             </tr>
                             {showAdd ? 
                             <tr>
-                                <td><b>Quantity</b></td><td><Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} /></td>
+                                <td class="align-middle"><b>Quantity</b></td><td class="align-middle"><Qty id={id} stock={stock} price={price} setQtySelected={setQtySelected} /></td>
                             </tr>
                             : <tr>
-                                <td colSpan={2} ><b>{addResult}</b><br /></td>
+                                <td class="align-middle" colSpan={2} ><b>{addResult}</b><br /></td>
                             </tr> }
                             {showAdd ? 
                             <tr>
-                                <td colSpan={2}><Button variant="warning" onClick={addToCart} description={description} price={price}>Add to Cart</Button></td>
+                                <td class="align-middle" colSpan={2}><Button variant="warning" onClick={addToCart} description={description} price={price}>Add to Cart</Button></td>
                             </tr>
                             : 
                             <tr>
-                                <td colSpan={2}><NavLink to="/cart"><Button variant="warning">Go to Cart</Button></NavLink>&nbsp;<NavLink to="/"><Button variant="warning">Continue Shopping</Button></NavLink></td>
+                                <td class="align-middle" colSpan={2}><NavLink to="/cart"><Button variant="warning">Go to Cart</Button></NavLink>&nbsp;<NavLink to="/"><Button variant="warning">Continue Shopping</Button></NavLink></td>
                             </tr>
                             }
                         </tbody>
@@ -126,7 +115,6 @@ const Description = () => {
                        
                 
             </Alert>
-            
         </div>
     )
     

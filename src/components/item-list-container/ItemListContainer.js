@@ -1,16 +1,17 @@
 import { React, useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
+import { Table, Carousel } from 'react-bootstrap'
 import Item from "../item-list-container/Item"
 import { useParams } from 'react-router-dom'
 import { collection, getDocs, getFirestore } from 'firebase/firestore'
-
+import { Alert } from 'react-bootstrap'
 export const ItemListContainer = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { categoryID } = useParams();
+    const [count,setCount]=useState(0);
+    let tmpCount = 0;
     const db = getFirestore();
-
     useEffect(() => {
         APIProductsList();
     },[]);
@@ -34,6 +35,7 @@ export const ItemListContainer = () => {
             const response = await getDocs(itemsCollection)
             console.log(response)
             setProducts(response.docs.map((doc) => ({id: doc.id,...doc.data()})))
+            setCount(response.docs.length);
         } catch(error) {
             console.log(error)
         } finally {
@@ -52,35 +54,41 @@ export const ItemListContainer = () => {
   
     return (
         <div>
-           
-            
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <td><h1>Products List {categoryID}</h1></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                        {
-                            !categoryID &&
-                            products.map(({id,name,price,stock,description}) => (
-                                <Item key={id} id={id} name={name} price={price} stock={stock} description={description} setSelectedItem={setSelectedItem} ></Item>
-                            ))
-                        }
-                        {
-                            categoryID &&
-                            filterProducts.map(({id,name,price,stock,description}) => (
-                                <Item key={id} id={id} name={name} price={price} stock={stock} description={description} setSelectedItem={setSelectedItem} ></Item>
-                            ))
-                        }
-                        </td>
-                    </tr>
-                </tbody>
-            </Table>
-            
-
+        <Alert variant='primary'>
+            <h3>Products List</h3>  
+            {
+                categoryID
+                ?
+                <h5 style={{'color': 'black'}}>Category: {categoryID}</h5>
+                :
+                ""
+            }
+        </Alert>
+      
+        <Carousel fade variant='dark'>
+            {
+                !categoryID ?
+                products.map(({id,name,price,stock,description}) => (
+                    <Carousel.Item interval={2000}>
+                        
+                        <Carousel.Caption>
+                            <h4>{description}</h4>
+                        </Carousel.Caption>
+                        <Item key={id} id={id} name={name} price={price} stock={stock} description={description} setSelectedItem={setSelectedItem} ></Item>
+                    </Carousel.Item>
+                ))
+                :
+                filterProducts.map(({id,name,price,stock,description}) => (
+                    <Carousel.Item interval={2000}>
+                        
+                        <Carousel.Caption>
+                            <h4>{description}</h4>
+                        </Carousel.Caption>
+                        <Item key={id} id={id} name={name} price={price} stock={stock} description={description} setSelectedItem={setSelectedItem} ></Item>
+                    </Carousel.Item>
+                ))
+            }
+        </Carousel>
         </div>
     )
 }
