@@ -1,6 +1,6 @@
 import {Button} from 'react-bootstrap'
 import { React, useState, useEffect} from 'react'
-
+import CartStyle from "../../css/CartStyle.css"
 const Qty = ({stock, price, setQtySelected }) => {
     const [QtyState, SetQtyState] = useState(1); 
     useEffect(() => {
@@ -25,7 +25,7 @@ const Qty = ({stock, price, setQtySelected }) => {
 
     return (
         <div>
-            <Button variant="secondary" onClick={UpdateQtyMinus} >-</Button>&nbsp;{QtyState}&nbsp;<Button variant="secondary"  onClick={UpdateQtyPlus}>+</Button>
+            <Button variant="danger" onClick={UpdateQtyMinus} className="icon-minus" />&nbsp;<Button variant="light">{QtyState}</Button>&nbsp;<Button variant="success"  onClick={UpdateQtyPlus} className="icon-plus" />
         </div>
     )
 }

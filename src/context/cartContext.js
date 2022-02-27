@@ -5,8 +5,6 @@ export const CartContext = createContext();
 const CartProvider = ({children}) => {
     const [productsInCart, setProductsInCart] = useState([]);
     const [totalProductsInCart, setTotalProductsInCart] = useState(0);
-    const [loading, setLoading] = useState(true);
-
     const AddProductsToCart = ({productID,qty,description,price}) => {
         setProductsInCart([...productsInCart, {"productID": productID, "qty": qty, "description": description, "price": price}]);
     };
@@ -18,9 +16,9 @@ const CartProvider = ({children}) => {
         setProductsInCart([]);
     }
            
-    
     useEffect(() => {
-        setTotalProductsInCart(productsInCart.length)
+        setTotalProductsInCart(productsInCart.length);
+        
     },[productsInCart])
 
     

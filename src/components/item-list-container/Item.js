@@ -21,10 +21,6 @@ const Item = ({id, name, price, stock , description, setSelectedItem}) => {
                 <br />
                 <br />
                 <br />
-                
-                
-                
-                
         </div>
     );
 }

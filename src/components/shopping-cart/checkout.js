@@ -1,12 +1,12 @@
-import {React, useContext, useEffect, useState} from "react";
+import {React, useContext, useEffect, useState, Fragment} from "react";
 import {Table, Alert, Button} from 'react-bootstrap';
 import { CartContext } from '../../context/cartContext';
 import { collection, addDoc, getFirestore, doc, updateDoc, getDoc} from 'firebase/firestore'
- 
+import CartStyle from "../../css/CartStyle.css"
 
 const CheckOut = () => {
     const { productsInCart } = useContext(CartContext);
-    const { EmptyCart } = useContext(CartContext);
+    
     const [name,saveName] = useState(undefined)
     const [lastName,saveLastName] = useState(undefined)
     const [phone, savePhone] = useState(undefined)
@@ -61,10 +61,8 @@ const CheckOut = () => {
         
         try {
             setIsProcessLoading(true)
-            
             const ordersCollection = collection(db, "orders");
             const response = await addDoc(ordersCollection, buyTotalResult)
-            //console.log('Response:'+response.id)
             setOrderID(response.id)
         } catch(error) {
             console.log(error)
@@ -72,30 +70,18 @@ const CheckOut = () => {
         } finally {
             setIsProcessLoading(false)
             updateStock();
-
-            //Achico el stock de cada producto
-            //Saco todos los productos del carro
-            //EmptyCart();
-        }
-        //console.log(buyTotalResult)
-        
+        }        
     }
     
-    
-    
-
     const updateStock = async () => {
         for (let a = 0; a<productsInCart.length;a++) {
             let productID = productsInCart[a].productID
             let quantity = productsInCart[a].qty
-          
             try {
                 let docRef = doc(db, "items", productID)
-                //updateDoc(docRef, {stock: stock-productsInCart[a].qty})
                 const getItemID = await getDoc(docRef)
                 const dataResponse = getItemID.data();
                 const stock = dataResponse.stock;
-                //console.log(stock-quantity)
                 const newStock = stock-quantity
                 updateDoc(docRef, {stock: newStock})
                 
@@ -111,93 +97,113 @@ const CheckOut = () => {
     
     return (
         <div>
-            <Alert variant="success"><h4>Shopping Cart</h4></Alert>
             
-            <Table striped bordered hover >
-                <thead>
-                    <tr>
-                        <th>Qty</th><th>Item Description</th><th>Unit Price</th><th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        productsInCart.length > 0 ?
-                        productsInCart.map(({productID,qty,description,price}) => (
-                            
-                            <tr key={(price*qty)+'-'+price+'-'+qty}>
-                                <td>{qty}</td><td>{description}</td><td>${price}</td><td>${price*qty}</td>
-                            </tr>
-                            
-                        ))
-                        :
-                            <tr><td colSpan={4}>Yor Shopping Cart is Empty</td></tr>
-                    }
-                    {
-                        productsInCart.length > 0 ?
-                            <tr >
-                                <td colSpan={2}></td><td colSpan={1}><b>Total:</b></td><td colSpan={1}><b>${subtotal}</b></td>
-                            </tr>
-                            
-                        
-                        :
-                            ""
-                    }
-                   
-
-                    
-                </tbody>
-            </Table>
-
-
-            {
-                orderID ?
-            
-                <Table>
-                    <thead>
-                        <tr>
-                            {
-                                orderID!="0" ?
-                                    <td><h3>Thanks for your Purchase</h3><br /><h5>Your order number is: {orderID}</h5></td>
-                                :
-                                    <td><h3>Ooops! There are an error with your order</h3></td>
-                            }
-
-                        </tr>
-                    </thead>
-                </Table>
-                :
-
-                <Table>
-                {
-                    productsInCart.length > 0 ? 
+            <div className="container">
+            <br />
+            <Alert variant="success" className="mb-5"><h4>Shopping Cart</h4></Alert>
+                <div className="table-responsive custom-table-responsive">
+                    <table className="table custom-table">
                         <thead>
                             <tr>
-                                <th>Name:</th>
-                                <th><input type='text' id='name' onChange={(e)=>saveName(e.target.value)}/></th>
-                            </tr>
-                            <tr>
-                                <th>Last Name:</th>
-                                <th><input type='text' id='lastName' onChange={(e)=>saveLastName(e.target.value)} /></th>
-                            </tr>
-                            <tr>
-                                <th>E-Mail:</th>
-                                <th><input type='text' id='email' onChange={(e)=>saveEmail(e.target.value)} /></th>
-                            </tr>
-                            <tr>
-                                <th>Phone Number:</th>
-                                <th><input type='text' id='phone' onChange={(e)=>savePhone(e.target.value)}/></th>
-                            </tr>
-                            <tr>
-                                <th colSpan={2}><Button onClick={buyNow}>Buy NOW!</Button></th>
-                                
+                                <td scope="col">Qty</td>
+                                <td scope="col">Item Description</td>
+                                <td scope="col">Unit Price</td>
+                                <td scope="col">Total</td>
                             </tr>
                         </thead>
-                    :
-                    ""
-                }
-                </Table>
+                        <tbody>
+                            {
+                                productsInCart.length > 0 ?
+                                productsInCart.map(({productID,qty,description,price}) => (
+                                    <Fragment key={productID}>
+                                        <tr >
+                                            <td >{qty}</td>
+                                            <td><b>{description}</b></td>
+                                            <td>${price}</td>
+                                            <td>${price*qty}</td>
+                                        </tr>
+                                       <tr className="spacer"><td colSpan={100}></td></tr>
+                                    </Fragment>
+                                ))
+                                :
+                                    <tr id="emptyCart"><td colSpan={4}>Yor Shopping Cart is Empty</td></tr>
+                            }
+                            {
+                                productsInCart.length > 0 ?
+                                    <tr id="totalPriceInCart">
+                                        <td colSpan={2}></td><td colSpan={1}><b>Total:</b></td><td colSpan={1}><b>${subtotal}</b></td>
+                                    </tr>
+                                    
+                                
+                                :
+                                    undefined
+                            }
+                           
 
+                        </tbody>
+                    </table>
+                    {
+                orderID ?
+                <>
+                    <Alert variant="success" className="mb-5"><h4>Order Result</h4></Alert>
+                    <table className="table custom-table">
+                        <tbody>
+                            <tr key="orderResultStatus">
+                                {
+                                    orderID!="0" ?
+                                        <td scope="col"><h3>Thanks for your Purchase</h3><br /><h5>Your order number is: {orderID}</h5></td>
+                                    :
+                                        <td scope="col"><h3>Ooops! There are an error with your order</h3></td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </>
+                :
+                <>
+                    <br />
+                    <Alert variant="success" className="mb-5"><h4>Personal Information</h4></Alert>
+                    <table className="table custom-table">
+                    {
+                        productsInCart.length > 0 ? 
+                            <tbody>
+                                <tr id="group1">
+                                    <td scope="col"><p align="right"><strong>Name:</strong></p></td>
+                                    <td scope="col"><input type='text' id='name' onChange={(e)=>saveName(e.target.value)}/></td>
+                                
+                                    <td scope="col"><p align="right"><strong>Last Name:</strong></p></td>
+                                    <td><input type='text' id='lastName' onChange={(e)=>saveLastName(e.target.value)} /></td>
+                                </tr>
+                                <tr className="spacer" id="space1"><td colSpan={100}></td></tr>
+                                <tr id="group2">
+                                    <td scope="col"><p align="right"><strong>E-Mail:</strong></p></td>
+                                    <td><input type='text' id='email' onChange={(e)=>saveEmail(e.target.value)} /></td>
+                                
+                                    <td scope="col"><p align="right"><strong>Phone Number:</strong></p></td>
+                                    <td><input type='text' id='phone' onChange={(e)=>savePhone(e.target.value)}/></td>
+                                </tr>
+                                <tr className="spacer" id="space2"><td colSpan={100}></td></tr>
+                                <tr>
+                                    <td colSpan={4}><Button onClick={buyNow}>Buy NOW!</Button></td>
+                                    
+                                </tr>
+                            </tbody>
+                        :
+                        undefined
+                    }
+                    </table>
+                </>
             }
+
+
+
+
+
+
+
+
+                </div>
+            </div>
 
 
 

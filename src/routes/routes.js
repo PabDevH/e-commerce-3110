@@ -9,6 +9,7 @@ import CheckOut from '../components/shopping-cart/checkout'
 //import ItemListContainerFireBase from '../components/item-list-container/ItemListConteainerFireBase';
 const Routes = () => {
     return (
+        
         <BrowserRouter>
         <NavBar />
         <Switch>
@@ -18,6 +19,7 @@ const Routes = () => {
             <Route path="/categories/:categoryID" element={< ItemListContainer />} />
             <Route path="/checkout" element={< CheckOut />} />
         </Switch>
+        
         </BrowserRouter>
     )
 }

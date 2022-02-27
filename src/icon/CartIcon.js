@@ -1,30 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import './CartIcon.css';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/cartContext';
+import CartStyle from "../css/CartStyle.css"
 
 export const CartIcon = () => {
     const totalProductsInCart = useContext(CartContext);
-    const [showTotalProducts,setShowTotalProducts] = useState(0);
-    useEffect(() => {
-        setShowTotalProducts(totalProductsInCart.totalProductsInCart)
-    },[totalProductsInCart])
-
     return (
         <div>
             
             {
-                showTotalProducts > 0 ?
+                totalProductsInCart.totalProductsInCart > 0 ?
                     <>
                         <Link to="/cart/" style={{"textDecoration": "none"}}>
-                            <img className='cart' src="/online-shopping.png" title="Shopping Cart" alt="Shopping Cart" />
-                            &nbsp;
-                            {showTotalProducts} Item(s)
+                            <i className='icon-shopping-bag'></i>
+                            <span className="cart-basket d-flex align-items-center justify-content-center">
+                            {totalProductsInCart.totalProductsInCart} Item(s)
+                            </span>
+                            
                         </Link>
                         
                     </>
                 :
-                    <img className='cart' src="/online-shopping.png" title="Your Shopping Cart is Empty" alt="Shopping Cart" />
+                <>
+                    <Link to="/" style={{"textDecoration": "none"}}>
+                        <i className='icon-shopping-bag'></i>
+                    </Link>
+                </>
             }
         </div>
     )

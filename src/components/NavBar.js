@@ -1,19 +1,13 @@
-import { FormControl, Button, Container, Form, Nav, Navbar, NavDropdown, NavItem } from "react-bootstrap";
+import {Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import CartIcon from "../icon/CartIcon";
 import { Link, NavLink } from "react-router-dom";
-import './NavLink.css';
-import { useState } from "react";
+import "../css/NavLink.css"
 const NavBar = () => {
-  const activeStyle = {
-    color: "red",
-  };
-  const [formValue, saveFormValue] = useState("");
-  const sendForm = () => {
-    console.log('Form: '+formValue);
-  }
+ 
+  
   return (
-  <div>
-    <Navbar bg="dark" variant="dark" >
+    <div>
+   <Navbar bg="dark" variant="dark" >
       <Container fluid>
         <Navbar.Brand >
           <NavLink 
@@ -32,39 +26,31 @@ const NavBar = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link >
-              <NavLink 
+            <Nav.Link as={Link} 
               to="/" 
               style={{ textDecoration: 'none' }}
-              >
-                Home
-              </NavLink>
+            >
+              Home
             </Nav.Link>
            
             <NavDropdown title="Explore" id="navbarScrollingDropdown" >
-            <NavDropdown.Item>
-              <NavLink 
+            <NavDropdown.Item as={Link}
               to="/categories/Music" 
               style={{ textDecoration: 'none' }}
-              >
-                Music
-              </NavLink>
+            >
+             Music
             </NavDropdown.Item>
-            <NavDropdown.Item>
-            <NavLink 
-            to="/categories/Sport" 
-            style={{ textDecoration: 'none' }}
+            <NavDropdown.Item as={Link}
+              to="/categories/Sport" 
+              style={{ textDecoration: 'none' }}
             >
               Sport
-            </NavLink>
             </NavDropdown.Item>
-            <NavDropdown.Item>
-            <NavLink 
-            to="/categories/Trading%20Cards" 
-            style={{ textDecoration: 'none' }}
+            <NavDropdown.Item as={Link}
+              to="/categories/Trading%20Cards" 
+              style={{ textDecoration: 'none' }}
             >
               Trading Cards
-            </NavLink>
             </NavDropdown.Item>
             </NavDropdown>
             
@@ -78,17 +64,7 @@ const NavBar = () => {
             
           </Nav>
           
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search Items, Collections..."
-              className="me-2"
-              aria-label="Search"
-              name="searchForm"
-              onInput={e => saveFormValue(e.target.value)}
-            />
-            <Button variant="outline-success" onClick={sendForm}>Search</Button>
-          </Form>
+          
         </Navbar.Collapse>
       </Container>
   </Navbar>
